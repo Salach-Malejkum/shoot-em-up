@@ -4,6 +4,9 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] private float bulletSpeed;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip explosion;
+
     private void Update()
     {
         transform.Translate(bulletSpeed * Time.deltaTime * Vector2.up);
@@ -14,6 +17,10 @@ public class Bullet : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
+        AudioManager.Instance.PlaySound(explosion);
+        if (other.gameObject.TryGetComponent<Asteroid>(out Asteroid asteroid)) {
+            asteroid.TakeDamage();
+        }
         Destroy(gameObject);
     }
 

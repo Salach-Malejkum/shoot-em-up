@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioMixer mixer;
     [SerializeField] private AudioClip singleShoot;
+    [SerializeField] private AudioClip explosion;
 
     private bool isPaused = false;
 
@@ -55,5 +56,13 @@ public class Player : MonoBehaviour
         pos.y = Mathf.Clamp(transform.position.y, -screenLimits.y, screenLimits.y);
 
         transform.position = pos;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        AudioManager.Instance.PlaySound(explosion);
+        if (other.gameObject.TryGetComponent<Asteroid>(out Asteroid asteroid)) {
+            asteroid.TakeDamage();
+        }
+        Destroy(gameObject);
     }
 }
