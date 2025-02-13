@@ -1,11 +1,19 @@
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    [Header("General")]
     [SerializeField] private float movementSpeed;
     [SerializeField] private GameObject bullet;
     [SerializeField] private Transform spawnerTransform;
+    
+    [Header("Audio")]
+    [SerializeField] private AudioMixer mixer;
+    [SerializeField] private AudioClip singleShoot;
+
+    private bool isPaused = false;
 
     private Vector2 moveInput;
     
@@ -18,7 +26,22 @@ public class Player : MonoBehaviour
     }
 
     private void OnShoot() {
-        Instantiate(bullet, spawnerTransform.position, Quaternion.identity);
+        if (!isPaused) {
+            Instantiate(bullet, spawnerTransform.position, Quaternion.identity);
+            AudioManager.Instance.PlaySound(singleShoot);
+        }
+    }
+
+    private void OnPause() {
+        if (!isPaused) {
+            mixer.SetFloat("LowpassFreq", 500);
+            Time.timeScale = 0;
+        } else {
+            mixer.SetFloat("LowpassFreq", 22000);
+            Time.timeScale = 1;
+        }
+
+        isPaused = !isPaused;
     }
 
     private void Move() {

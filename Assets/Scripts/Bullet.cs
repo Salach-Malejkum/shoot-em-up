@@ -3,12 +3,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private float bulletSpeed;
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     private void Update()
     {
         transform.Translate(bulletSpeed * Time.deltaTime * Vector2.up);
