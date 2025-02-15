@@ -13,7 +13,7 @@ public class Asteroid : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(asteroidSpeed * Time.deltaTime * Vector2.down);
+        transform.Translate(asteroidSpeed * (Time.deltaTime + Time.timeSinceLevelLoad / 10000) * Vector2.down);
 
         if (!CheckIfOnScreen())
         {
@@ -23,7 +23,7 @@ public class Asteroid : MonoBehaviour
 
     private bool CheckIfOnScreen()
     {
-        if (transform.position.y < Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y)
+        if (transform.position.y < Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y - 5)
         {
             return false;
         }
