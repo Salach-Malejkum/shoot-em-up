@@ -15,14 +15,16 @@ public class Asteroid : MonoBehaviour
     {
         transform.Translate(asteroidSpeed * Time.deltaTime * Vector2.down);
 
-        if (!CheckIfOnScreen()) {
+        if (!CheckIfOnScreen())
+        {
             Destroy(gameObject);
         }
     }
 
     private bool CheckIfOnScreen()
     {
-        if (transform.position.y < Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y) {
+        if (transform.position.y < Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y)
+        {
             return false;
         }
 
@@ -31,7 +33,8 @@ public class Asteroid : MonoBehaviour
 
     public void TakeDamage(string hitterTag)
     {
-        if (--health <= 0 || hitterTag == "Player") {
+        if (--health <= 0 || hitterTag == "Player")
+        {
             Destroy(gameObject);
             GameManager.Instance.AddScore(score);
         }

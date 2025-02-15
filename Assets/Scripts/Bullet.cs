@@ -11,7 +11,8 @@ public class Bullet : MonoBehaviour
     {
         transform.Translate(bulletSpeed * Time.deltaTime * Vector2.up);
 
-        if (!CheckIfOnScreen()) {
+        if (!CheckIfOnScreen())
+        {
             Destroy(gameObject);
         }
     }
@@ -19,7 +20,8 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         AudioManager.Instance.PlaySound(explosion);
-        if (other.gameObject.TryGetComponent<Asteroid>(out Asteroid asteroid)) {
+        if (other.gameObject.TryGetComponent<Asteroid>(out Asteroid asteroid))
+        {
             asteroid.TakeDamage(tag);
         }
         Destroy(gameObject);
@@ -27,7 +29,8 @@ public class Bullet : MonoBehaviour
 
     private bool CheckIfOnScreen()
     {
-        if (transform.position.y > Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)).y) {
+        if (transform.position.y > Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)).y)
+        {
             return false;
         }
 

@@ -36,7 +36,8 @@ public class Player : MonoBehaviour
 
     private void OnShoot()
     {
-        if (!isPaused) {
+        if (!isPaused)
+        {
             Instantiate(bullet, spawnerTransform.position, Quaternion.identity);
             AudioManager.Instance.PlaySound(singleShoot);
         }
@@ -44,10 +45,13 @@ public class Player : MonoBehaviour
 
     private void OnPause()
     {
-        if (!isPaused) {
+        if (!isPaused)
+        {
             mixer.SetFloat("LowpassFreq", 500);
             Time.timeScale = 0;
-        } else {
+        }
+        else
+        {
             mixer.SetFloat("LowpassFreq", 22000);
             Time.timeScale = 1;
         }
@@ -57,7 +61,8 @@ public class Player : MonoBehaviour
 
     private void Move()
     {
-        if (moveInput != Vector2.zero) {
+        if (moveInput != Vector2.zero)
+        {
             transform.Translate(moveInput * movementSpeed * Time.deltaTime);
         }
 
@@ -72,7 +77,8 @@ public class Player : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         AudioManager.Instance.PlaySound(explosion);
-        if (other.gameObject.TryGetComponent<Asteroid>(out Asteroid asteroid)) {
+        if (other.gameObject.TryGetComponent<Asteroid>(out Asteroid asteroid))
+        {
             asteroid.TakeDamage(tag);
         }
         TakeDamage();
@@ -80,11 +86,14 @@ public class Player : MonoBehaviour
 
     private void RedBlink()
     {
-        if (isBlinking && blinkElapsedTime < 1) {
+        if (isBlinking && blinkElapsedTime < 1)
+        {
             sprite.color = Mathf.Repeat(blinkElapsedTime, 0.2f) < 0.1f ? Color.red : Color.white;
             blinkElapsedTime += Time.deltaTime;
             print(blinkElapsedTime);
-        } else if (isBlinking) {
+        }
+        else if (isBlinking)
+        {
             sprite.color = Color.white;
             blinkElapsedTime = 0;
             isBlinking = false;
@@ -94,7 +103,8 @@ public class Player : MonoBehaviour
     private void TakeDamage()
     {
         isBlinking = true;
-        if (GameManager.Instance.PlayerTookDamage()) {
+        if (GameManager.Instance.PlayerTookDamage())
+        {
             Destroy(gameObject);
         }
     }
