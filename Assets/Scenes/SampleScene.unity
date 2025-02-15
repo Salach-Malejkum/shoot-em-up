@@ -1911,6 +1911,7 @@ MonoBehaviour:
   mixer: {fileID: 24100000, guid: 7c9493ec61c8ed14294bf34f66552f5e, type: 2}
   singleShoot: {fileID: 8300000, guid: 1638fe09de38ed64bb8d54113edadb22, type: 3}
   explosion: {fileID: 8300000, guid: 96550fd2ec2868d428170b1b56644505, type: 3}
+  sprite: {fileID: 2126223871}
 --- !u!212 &2126223871
 SpriteRenderer:
   m_ObjectHideFlags: 0

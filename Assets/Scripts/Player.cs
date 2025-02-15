@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
@@ -14,6 +15,11 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioClip singleShoot;
     [SerializeField] private AudioClip explosion;
 
+    [Header("VisualDamageHandler")]
+    [SerializeField] private SpriteRenderer sprite;
+    private float blinkElapsedTime = 0;
+    private bool isBlinking = false;
+
     private bool isPaused = false;
 
     private Vector2 moveInput;
@@ -21,6 +27,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
         Move();
+        RedBlink();
     }
 
     private void OnMove(InputValue input) {
@@ -73,12 +80,20 @@ public class Player : MonoBehaviour
 
     private void RedBlink()
     {
-        
+        if (isBlinking && blinkElapsedTime < 1) {
+            sprite.color = Mathf.Repeat(blinkElapsedTime, 0.2f) < 0.1f ? Color.red : Color.white;
+            blinkElapsedTime += Time.deltaTime;
+            print(blinkElapsedTime);
+        } else if (isBlinking) {
+            sprite.color = Color.white;
+            blinkElapsedTime = 0;
+            isBlinking = false;
+        }
     }
 
     private void TakeDamage()
     {
-
+        isBlinking = true;
         if (GameManager.Instance.PlayerTookDamage()) {
             Destroy(gameObject);
         }
