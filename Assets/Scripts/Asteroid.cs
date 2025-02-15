@@ -4,6 +4,12 @@ public class Asteroid : MonoBehaviour
 {
     [SerializeField] private float asteroidSpeed;
     [SerializeField] private int health;
+    private int score;
+
+    private void Start()
+    {
+        score = health;
+    }
 
     private void Update()
     {
@@ -14,7 +20,8 @@ public class Asteroid : MonoBehaviour
         }
     }
 
-    private bool CheckIfOnScreen() {
+    private bool CheckIfOnScreen()
+    {
         if (transform.position.y < Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y) {
             return false;
         }
@@ -22,9 +29,11 @@ public class Asteroid : MonoBehaviour
         return true;
     }
 
-    public void TakeDamage() {
-        if (--health <= 0) {
+    public void TakeDamage(string hitterTag)
+    {
+        if (--health <= 0 || hitterTag == "Player") {
             Destroy(gameObject);
+            GameManager.Instance.AddScore(score);
         }
     }
 }

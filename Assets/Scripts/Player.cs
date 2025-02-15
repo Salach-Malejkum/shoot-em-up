@@ -18,7 +18,8 @@ public class Player : MonoBehaviour
 
     private Vector2 moveInput;
     
-    private void Update() {
+    private void Update()
+    {
         Move();
     }
 
@@ -26,14 +27,16 @@ public class Player : MonoBehaviour
         moveInput = input.Get<Vector2>();
     }
 
-    private void OnShoot() {
+    private void OnShoot()
+    {
         if (!isPaused) {
             Instantiate(bullet, spawnerTransform.position, Quaternion.identity);
             AudioManager.Instance.PlaySound(singleShoot);
         }
     }
 
-    private void OnPause() {
+    private void OnPause()
+    {
         if (!isPaused) {
             mixer.SetFloat("LowpassFreq", 500);
             Time.timeScale = 0;
@@ -45,7 +48,8 @@ public class Player : MonoBehaviour
         isPaused = !isPaused;
     }
 
-    private void Move() {
+    private void Move()
+    {
         if (moveInput != Vector2.zero) {
             transform.Translate(moveInput * movementSpeed * Time.deltaTime);
         }
@@ -55,14 +59,28 @@ public class Player : MonoBehaviour
         pos.x = Mathf.Clamp(transform.position.x, -screenLimits.x, screenLimits.x);
         pos.y = Mathf.Clamp(transform.position.y, -screenLimits.y, screenLimits.y);
 
-        transform.position = pos;
+        transform.position = new Vector2(Mathf.Clamp(transform.position.x, -screenLimits.x, screenLimits.x), Mathf.Clamp(transform.position.y, -screenLimits.y, screenLimits.y));
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
+    private void OnTriggerEnter2D(Collider2D other)
+    {
         AudioManager.Instance.PlaySound(explosion);
         if (other.gameObject.TryGetComponent<Asteroid>(out Asteroid asteroid)) {
-            asteroid.TakeDamage();
+            asteroid.TakeDamage(tag);
         }
-        Destroy(gameObject);
+        TakeDamage();
+    }
+
+    private void RedBlink()
+    {
+        
+    }
+
+    private void TakeDamage()
+    {
+
+        if (GameManager.Instance.PlayerTookDamage()) {
+            Destroy(gameObject);
+        }
     }
 }

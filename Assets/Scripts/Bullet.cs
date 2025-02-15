@@ -16,15 +16,17 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
+    private void OnTriggerEnter2D(Collider2D other)
+    {
         AudioManager.Instance.PlaySound(explosion);
         if (other.gameObject.TryGetComponent<Asteroid>(out Asteroid asteroid)) {
-            asteroid.TakeDamage();
+            asteroid.TakeDamage(tag);
         }
         Destroy(gameObject);
     }
 
-    private bool CheckIfOnScreen() {
+    private bool CheckIfOnScreen()
+    {
         if (transform.position.y > Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)).y) {
             return false;
         }
